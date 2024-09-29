@@ -24,7 +24,7 @@ type ListEntryParams struct {
 }
 
 
-func fetchRandomAccount(t *testing.T) Account{
+func FetchRandomAccount(t *testing.T) Account{
 	account , err := testQueries.GetAccount(context.Background(),utils.RandomInt(1, 12) )
 	require.NoError(t, err)
 	require.NotEmpty(t, account)
@@ -42,7 +42,7 @@ func fetchRandomAccount(t *testing.T) Account{
 // }
 
 func createRandomEntry(t *testing.T) Entry{
-	account := fetchRandomAccount(t)
+	account := FetchRandomAccount(t)
     accountID := account.ID
 
     arg := CreateEntryParams{
@@ -59,7 +59,7 @@ func createRandomEntry(t *testing.T) Entry{
 
 func TestCreateEntry(t *testing.T){
 	
-	account := fetchRandomAccount(t)
+	account := FetchRandomAccount(t)
 	accountID := account.ID
 
 	arg := CreateEntryParams{
@@ -76,11 +76,15 @@ func TestCreateEntry(t *testing.T){
 
 
 func TestGetEntry(t *testing.T){
-	
+	entry := createRandomEntry(t)
 
-    entry , err := testQueries.GetEntry(context.Background(), utils.RandomInt(1,3))
+    entry2 , err := testQueries.GetEntry(context.Background(), entry.ID)
     require.NoError(t , err)
-    require.NotEmpty(t, entry)
+    require.NotEmpty(t, entry2)
+	require.Equal(t, entry.AccountID , entry2.AccountID)
+	require.Equal(t, entry.Amount , entry2.Amount)
+
+
 }
 
 func TestDelete(t *testing.T){
@@ -123,7 +127,7 @@ func TestListEntries(t *testing.T){
 
 	entries, err := testQueries.ListEntries(context.Background(), arg.Limit, arg.Offset)
 	require.NoError(t, err)
-	require.Len(t, entries, 3)
+	require.Len(t, entries, 5)
 
 	for _ , entry := range entries {
         require.NotEmpty(t, entry)     
