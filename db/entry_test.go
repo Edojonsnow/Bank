@@ -32,14 +32,6 @@ func FetchRandomAccount(t *testing.T) Account{
 	return account
 }
 
-// func fetchRandomEntry(t *testing.T) Entry{
-// 	entry , err := testQueries.GetEntry(context.Background(), utils.RandomInt(1, 3))
-//     require.NoError(t, err)
-//     require.NotEmpty(t, entry)
-    
-//     return entry
-
-// }
 
 func createRandomEntry(t *testing.T) Entry{
 	account := FetchRandomAccount(t)
@@ -117,9 +109,7 @@ func TestUpdateEntry(t *testing.T){
 }
 
 func TestListEntries(t *testing.T){
-	for i := 0 ; i > 10 ; i ++{
-		createRandomEntry(t)
-	}
+
 	arg := ListEntryParams{
         Limit:  5,
         Offset: 5,

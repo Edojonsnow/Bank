@@ -63,9 +63,7 @@ func TestGetTransfer(t *testing.T){
 }
 
 func TestListTransfers(t *testing.T){
-	for i := 0 ; i < 10 ; i++{
-		createRandomTransfer(t)
-	}
+	
 
 	arg := ListTransferParams{
 		Limit:  5,
